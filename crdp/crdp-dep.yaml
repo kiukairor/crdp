@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: crdp
+  name: crdp-deployment
+spec:
+  template:
+     metadata:
+        name: crdp
+        labels:
+          run: crdp
+     spec:
+      containers:
+        - image: thalesciphertrust/ciphertrust-restful-data-protection:latest
+          imagePullPolicy: IfNotPresent
+          name: crdp-image
+          env:
+            - name: KEY_MANAGER_HOST
+              value: "cm-ninja.kiukairor.com"
+            - name: SERVER_MODE
+              value: "no-tls"
+            - name: REGISTRATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: crdp-reg-token
+                  key: regtoken
+
+  replicas: 1
+  selector:
+      matchLabels:
+        run: crdp

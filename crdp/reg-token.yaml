@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: crdp-reg-token
+type: Opaque
+data:
+  regtoken: WjBjMTU0ODA5MTdkck5aWE9VcndPc1N5ZzBFTFR5M1BPV1ZsQlVzZlZlOEJDbEI5UGx5bDl2bXNvcmpvQW1zQg==
