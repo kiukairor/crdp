@@ -6,3 +6,11 @@ resources:
 - https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.5.1
 - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1.6.1/deploy/crds.yaml
 - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1.6.1/deploy/nodeport/deploy.yaml
+- gateway.yaml
+- gateway-tls.yaml
+
+secretGenerator:
+- name: nginx-gw-fabric-tls
+  files:
+  - tls.crt=tls/tls.crt
+  - tls.key=tls/tls.key

@@ -14,12 +14,18 @@ spec:
       containers:
         - image: thalesciphertrust/ciphertrust-restful-data-protection:latest
           imagePullPolicy: IfNotPresent
-          name: crdp-image
+          name: crdp
           env:
             - name: KEY_MANAGER_HOST
-              value: "cm-ninja.kiukairor.com"
+              valueFrom:
+                configMapKeyRef:
+                  name: crdp-config
+                  key: CM_HOST
             - name: SERVER_MODE
-              value: "no-tls"
+              valueFrom:
+                configMapKeyRef:
+                  name: crdp-config
+                  key:  TLS_MODE
             - name: REGISTRATION_TOKEN
               valueFrom:
                 secretKeyRef:

@@ -1,5 +1,5 @@
-# Important 
-Note All security bad practises will be followed in the first iterations.
+# Important Note
+All security bad practises will be followed in the first iterations :)
 
 # CRDP
 This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
@@ -25,5 +25,12 @@ This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
 - a TLS Secret for Gateway API TLS
 - a way to resolve to your exposed Gateway API
 
+## values to sort
+- CRDP: CM hostname, tls mode, reg token
+- GW: tls secret, 
+- Routes: hostname for crdp 
+
+
 # More Notes
 - For now, we enable TLS offload at the gateway and we forward calls with http only; other modes will be added later; note that CRDP service can of course leverage TLS communication
+

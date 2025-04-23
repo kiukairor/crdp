@@ -7,3 +7,9 @@ resources:
   - crdp-dep.yaml
   - crdp-svc.yaml
   - reg-token.yaml
+
+configMapGenerator:
+- name: crdp-config
+  literals:
+  - TLS_MODE=no-tls
+  - CM_HOST=cm-ninja.kiukairor.com
