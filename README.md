@@ -2,9 +2,17 @@
 This is intended as demo/poc only; some bad practises are followed here
 
 # Usage 
-0. Place tls.key and tls.cert in folder gw-api/tls. If you do not have such files, run the following command 
+0. Place tls.key and tls.cert in folder gw-api/tls. They will represent the TLS endpoint exposed at the Gateway level. 
+    If you do not have such files, run the following command:
+````
+openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=London/O=yourorg/CN=*.env.local"
+````
+1. Get a Registration Token
+    - Log onto your CipherTrust Manager > Application Protection > Add Application > Connector Type set to 'CRDP' and follow wizard (leave default values if unsure)
+    - Click on the created application and click 'Copy' to copy the Registration Token
+    - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'
 
-
+2. Run 'kubectl apply -k .' at the root level.
 
 # CRDP
 This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
