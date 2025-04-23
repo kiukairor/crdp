@@ -6,7 +6,6 @@ namespace: kust
 resources:
   - crdp-dep.yaml
   - crdp-svc.yaml
-  - reg-token.yaml
 
 generatorOptions:
   disableNameSuffixHash: true

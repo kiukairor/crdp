@@ -5,3 +5,23 @@ namespace: kust
 
 resources:
   - crdp-route.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- name: route-config
+  literals:
+  - hostname=crdp-kust.kiukairor.local
+
+replacements:
+- source:
+    kind: ConfigMap
+    name: route-config
+    version: v1
+    fieldPath: data.hostname
+  targets:
+  - select:
+      kind: HTTPRoute
+    fieldPaths:
+    - spec.hostnames.0

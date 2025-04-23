@@ -4,7 +4,7 @@ metadata:
   name: crdp-route-http
 spec:
   hostnames:
-  - crdp-kust.kiukairor.local
+  - placeholder.kiukairor.local #will be populated by the replacement in kustomization.yaml
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
