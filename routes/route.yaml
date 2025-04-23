@@ -1,0 +1,47 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+items:
+- apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  metadata:
+    name: otel-route-http
+    namespace: default
+  spec:
+    hostnames:
+    - otel-dice.kiukairor.local
+    parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: nginx-gateway
+      namespace: nginx-gateway
+      # sectionName: "http-listener"
+    rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: otel-dice-svc
+        port: 80
+      matches:
+      - path:
+          type: PathPrefix
+          value: /
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: otel-route-https
+# spec:
+#   parentRefs:
+#   - group: gateway.networking.k8s.io
+#     kind: Gateway
+#     name: nginx-gateway
+#     namespace: nginx-gateway
+#     # sectionName: "https-listener"
+#   hostnames:
+#   - "otel-dice.kiukairor.local"
+#   rules:
+#   - filters:
+#     - type: RequestRedirect
+#       requestRedirect:
+#         scheme: https
+#         port: 443
