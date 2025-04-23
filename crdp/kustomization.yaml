@@ -8,8 +8,17 @@ resources:
   - crdp-svc.yaml
   - reg-token.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 configMapGenerator:
 - name: crdp-config
   literals:
   - TLS_MODE=no-tls
   - CM_HOST=cm-ninja.kiukairor.com
+
+secretGenerator:
+  - name: crdp-reg-token
+    type: Opaque
+    files:
+      - regtoken=regtoken/value

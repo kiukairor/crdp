@@ -7,10 +7,15 @@ resources:
 - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1.6.1/deploy/crds.yaml
 - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v1.6.1/deploy/nodeport/deploy.yaml
 - gateway.yaml
-- gateway-tls.yaml
+# - gateway-tls.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
 
 secretGenerator:
 - name: nginx-gw-fabric-tls
+  namespace: nginx-gateway
+  type: kubernetes.io/tls
   files:
   - tls.crt=tls/tls.crt
   - tls.key=tls/tls.key
