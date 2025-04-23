@@ -14,6 +14,9 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out
 
 2. Run 'kubectl apply -k .' at the root level.
 
+3. Modify routes/crdp-route > hostname to yours
+4. Modify crdp/kustomization.yaml to update CM-hostname
+
 # CRDP
 This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
 - the CRDP deployment will be exposed via a Gateway API. This Gateway API will be exposed to the outside world as a NodePort.
