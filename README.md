@@ -1,5 +1,12 @@
+# CRDP
+This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
+- the CRDP deployment will be exposed via a Gateway API. This Gateway API will be exposed to the outside world as a NodePort.
+- Calls to CRDP will be performed through this Gateway API
+- We are using the Nginx Gateway Fabric here as the Gateway API; feel free to change it.
+- In the authorised mode, calls to CRDP will authorised through Keycloak IDP; feel free to use any other OIDC supporting IDP (not implemented yet)
+
 # Important Note
-This is intended as demo/poc only; some bad practises are followed here
+This is intended as demo/poc only; some bad practises are followed here.
 
 # Usage 
 0. Create a namespace where CRDP objects will be deployed.
@@ -37,15 +44,8 @@ curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 ````
 7. Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
 
-6. To uninstall things, run 'kubectl apply -k .', at the root level again.
+8. To uninstall things, run 'kubectl apply -k .', at the root level again.
 
-
-# CRDP
-This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
-- the CRDP deployment will be exposed via a Gateway API. This Gateway API will be exposed to the outside world as a NodePort.
-- Calls to CRDP will be performed through this Gateway API
-- We are using the Nginx Gateway Fabric here as the Gateway API; feel free to change it.
-- In the authorised mode, calls to CRDP will authorised through Keycloak IDP; feel free to use any other OIDC supporting IDP (not implemented yet)
 
 
 # General Prereqs
