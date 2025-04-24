@@ -45,7 +45,10 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out
 4. Update crdp/kustomization.yaml:
     - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
     - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<ciphertrust-hostname\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
-5. Run 'kubectl apply -k .' at the root level.
+5. At root level of this project, run:
+````
+kubectl apply -k .
+```` 
 
 6. To get your gateway NodePort, run:
 ````
@@ -53,8 +56,8 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 nginx-gateway   NodePort   10.100.156.252   <none>        80:30116/TCP,443:31244/TCP   13h
 ````
-Here the https port is 31244.
-Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and see CRDP is running. (you may need to accept SSL/TLS certificate warning)
+Here the https port is 31244. 
+Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and see CRDP is running (you may need to accept SSL/TLS certificate warning).
 
 ````
 curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
@@ -62,7 +65,10 @@ curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 7. Start using CRDP capabilities. 
 Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
 
-8. To uninstall things, run 'kubectl apply -k .', at the root level again.
+8. To uninstall things, at the root level again:
+````
+kubectl apply -k .
+````
     - Don't worry if you see 'NotFound' errors, it is likely due to the fact that some CRDs are deleted before the objects themselves. It should not a be a concern for this demo project.
 
 
