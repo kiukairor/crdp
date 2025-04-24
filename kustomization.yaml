@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
 - crdp/
 - gw-api/
-- routes/
+- crdp-routes/

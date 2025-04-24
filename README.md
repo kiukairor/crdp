@@ -45,12 +45,13 @@ curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 7. Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
 
 8. To uninstall things, run 'kubectl apply -k .', at the root level again.
+    - don't worry if you see 'not found' errors, it is likely due to the fact that the CRDs are deleted before the objects themselves
 
 
 
 # General Prereqs
 - CipherTrust manager with CRDP licensed,
-- a K8s cluster,
+- a reasonably recent K8s cluster (this was tested on 1.29, with kustomize 5.0)
 - a way to resolve to NodePorts for external clients.
 
 
