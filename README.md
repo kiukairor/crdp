@@ -61,9 +61,8 @@ curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 - a way to resolve to your exposed Gateway API
 
 # Next Steps
-- Add the possibility to deploy a keycloak IDP to handle CRDP authorisation (See https://thalesdocs.com/ctp/cm/2.19/admin/adp_ag/adp-cm-crdp/defn-app-crdp/
-index.html)
+- Add the possibility to deploy a keycloak IDP to handle CRDP authorisation (See https://thalesdocs.com/ctp/cm/2.19/admin/adp_ag/adp-cm-crdp/defn-app-crdp/index.html)
 - Use Secrets Manager for dealing with secrets (e.g. tls secret, reg token)
-- Add TLS between Gateway and/or passthrough mode (note CRDP TLS secret from secrets manager)
+- Add TLS between Gateway and/or passthrough mode.
 
 
