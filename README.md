@@ -67,7 +67,7 @@ Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.ht
 
 
 
-# General Prereqs
+# Prereqs
 - CipherTrust manager with CRDP licensed,
 - A reasonably recent K8s cluster (this was tested on 1.29, with kustomize 5.0),
 - A way to resolve to NodePorts for external clients. When your client try to access 'crdp.\<domain-name\>', it should be redirected to the worker node where the Gateway API is running.
