@@ -6,10 +6,10 @@ This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
 - In the authorised mode, calls to CRDP will authorised through Keycloak IDP; feel free to use any other OIDC supporting IDP (not implemented yet)
 
 # Why this project? 
-One could simply use Thales helm chart to deploy CRDP; this project was meant to:
-    - deploy an gateway API standing before (CRDP) workloads: it should be easy to find posts or resources explaining why one may want to use Gateway API insted of Ingress in  K8s
-    - Thales default Helm Chart defines a NodePort svc for CRDP, this is of course acceptable for demos but we wanted to go one step further
-    - use kustomize
+One could simply use Thales helm chart to deploy CRDP; this project was meant to: 
+- deploy an gateway API standing before (CRDP) workloads: it should be easy to find posts or resources explaining why one may want to use Gateway API insted of Ingress in  K8s
+- Thales default Helm Chart defines a NodePort svc for CRDP, this is of course acceptable for demos but we wanted to go one step further
+- Use kustomize.
 
 ## Promise
 As long as you fulfill the general prereqs, you should be able to amend the config files, deploy things and verify CRDP is up and running in less than 10 mins.
