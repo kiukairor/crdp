@@ -1,4 +1,4 @@
-# CRDP
+# CRDP - Thales CipherTrust Application Data Protection
 This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
 - the CRDP deployment will be exposed via a Gateway API. This Gateway API will be exposed to the outside world as a NodePort.
 - Calls to CRDP will be performed through this Gateway API
