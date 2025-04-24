@@ -22,12 +22,12 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out
     - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'
 
 3. Update crdp-routes/kustomization.yaml: 
-    - Replace 'namespace: kust' by 'namespace: <your-created-namespace>' (See step 0.)
-    - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=<your-crdp-hostname>' (Hostname of your choice, your clients should be able to resolve it)
+    - Replace 'namespace: kust' by 'namespace: \<your-created-namespace\> (See step 0.)
+    - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=\<your-crdp-hostname\>' (Hostname of your choice, your clients should be able to resolve it)
 
 4. Update crdp/kustomization.yaml:
-    - Replace 'namespace: kust' by 'namespace: <your-created-namespace>' (See step 0.)
-    - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=<you-ciphertrust-hostname-ip> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
+    - Replace 'namespace: kust' by 'namespace: \<your-created-namespace\> (See step 0.)
+    - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<you-ciphertrust-hostname-ip\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
 5. Run 'kubectl apply -k .' at the root level.
 
 6. To get your gateway NodePort, run:
@@ -37,7 +37,7 @@ NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)               
 nginx-gateway   NodePort   10.100.156.252   <none>        80:30116/TCP,443:31244/TCP   13h
 ````
 Here my https port is 31244.
-Browse/Curl to https://<your-crdp-hostname>:<https-port>/liveness and see CRDP is running
+Browse/Curl to https://\<your-crdp-hostname\>:\<https-port\>/liveness and see CRDP is running
 
 ````
 curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
