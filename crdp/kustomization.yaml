@@ -13,8 +13,8 @@ generatorOptions:
 configMapGenerator:
 - name: crdp-config
   literals:
-  - TLS_MODE=no-tls
-  - CM_HOST=cm-ninja.kiukairor.com
+  - TLS_MODE=no-tls                 # no-tls, tls-cert-opt, tsl-cert
+  - CM_HOST=cm-ninja.kiukairor.com  # Modify here to your hostname/IP for CipherTrust
 
 secretGenerator:
   - name: crdp-reg-token

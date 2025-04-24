@@ -2,20 +2,43 @@
 This is intended as demo/poc only; some bad practises are followed here
 
 # Usage 
-0. Place tls.key and tls.cert in folder gw-api/tls. They will represent the TLS endpoint exposed at the Gateway level. 
-    If you do not have such files, run the following command:
+0. Create a namespace where CRDP objects will be deployed.
+
+1. Place tls.key and tls.cert in folder gw-api/tls. They will represent the TLS endpoint exposed at the Gateway level. 
+    a. If you do not have such files, run the following command:
 ````
-openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=London/O=yourorg/CN=*.env.local"
+openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.env.local"
 ````
-1. Get a Registration Token
+2. Get a Registration Token
     - Log onto your CipherTrust Manager > Application Protection > Add Application > Connector Type set to 'CRDP' and follow wizard (leave default values if unsure)
     - Click on the created application and click 'Copy' to copy the Registration Token
     - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'
 
-2. Run 'kubectl apply -k .' at the root level.
+3. Update crdp-routes/kustomization.yaml: 
+    - Replace 'namespace: kust' by 'namespace: <your-created-namespace>' (See step 0.)
+    - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=<your-crdp-hostname>' (Hostname of your choice, your clients should be able to resolve it)
 
-3. Modify routes/crdp-route > hostname to yours
-4. Modify crdp/kustomization.yaml to update CM-hostname
+4. Update crdp/kustomization.yaml:
+    - Replace 'namespace: kust' by 'namespace: <your-created-namespace>' (See step 0.)
+    - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=<you-ciphertrust-hostname-ip> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
+5. Run 'kubectl apply -k .' at the root level.
+
+6. To get your gateway NodePort, run:
+````
+➜  ~ kubectl -n nginx-gateway get svc
+NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+nginx-gateway   NodePort   10.100.156.252   <none>        80:30116/TCP,443:31244/TCP   13h
+````
+Here my https port is 31244.
+Browse/Curl to https://<your-crdp-hostname>:<https-port>/liveness and see CRDP is running
+
+````
+curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
+````
+7. Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
+
+6. To uninstall things, run 'kubectl apply -k .', at the root level again.
+
 
 # CRDP
 This project is meant to deploy a CRDP workload in a K8s cluster. Along the way:
