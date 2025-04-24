@@ -12,31 +12,39 @@ One could simply use Thales helm chart to deploy CRDP; this project was meant to
 - Use kustomize to deploy things.
 
 ## Promise
-As long as you fulfill the general prereqs, you should be able to amend the config files, deploy things and verify CRDP is up and running in less than 10 mins.
+As long as you fulfill the general prereqs, you should be able to amend the config files, deploy things and verify CRDP is up and running in around **5 mins**.
 
 # Important Note
 This is intended as demo/poc only; some bad practises are followed here.
 
+
+# Right before starting
+Explanation of the variables involved below.
+- \<domain-name\>: the domain name of your set up. It can be a local domain name.
+- \<crdp-hostname\>: it is the hostname you will reach out to. It should be something like 'crdp.\<domain-name\>'. For a local setup, you can simply add an entry in /etc/hosts to make your client resolve 'crdp.\<domain-name\>' to your worker nodes.
+- \<crdp-namespace\>: K8s Namespace that will hold CRDP resources
+- \<ciphertust-hostname\>: Hostname or IP address to your CipherTrust Manager. Your pods must be able to resolve to it and/or to reach the corresponding IP address.
+
 # Usage 
-0. Create a namespace where CRDP objects will be deployed.
+0. Create the namespace \<crdp-hostname\>.
 
 1. Place tls.key and tls.cert in folder gw-api/tls. They will represent the TLS endpoint exposed at the Gateway level. 
     a. If you do not have such files, run the following command:
 ````
-openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.env.local"
+openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
 ````
 2. Get a Registration Token
     - Log onto your CipherTrust Manager > Application Protection > Add Application > Connector Type set to 'CRDP' and follow wizard (leave default values if unsure)
     - Click on the created application and click 'Copy' to copy the Registration Token
-    - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'
+    - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'.
 
 3. Update crdp-routes/kustomization.yaml: 
-    - Replace 'namespace: kust' by 'namespace: \<your-created-namespace\> (See step 0.)
-    - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=\<your-crdp-hostname\>' (Hostname of your choice, your clients should be able to resolve it)
+    - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
+    - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=\<crdp-hostname\>' (Hostname of your choice, your clients should be able to resolve it)
 
 4. Update crdp/kustomization.yaml:
-    - Replace 'namespace: kust' by 'namespace: \<your-created-namespace\> (See step 0.)
-    - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<you-ciphertrust-hostname-ip\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
+    - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
+    - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<ciphertrust-hostname\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
 5. Run 'kubectl apply -k .' at the root level.
 
 6. To get your gateway NodePort, run:
@@ -45,13 +53,14 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 nginx-gateway   NodePort   10.100.156.252   <none>        80:30116/TCP,443:31244/TCP   13h
 ````
-Here my https port is 31244.
-Browse/Curl to https://\<your-crdp-hostname\>:\<https-port\>/liveness and see CRDP is running
+Here the https port is 31244.
+Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and see CRDP is running. (you may need to accept SSL/TLS certificate warning)
 
 ````
 curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 ````
-7. Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
+7. Start using CRDP capabilities. 
+Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
 
 8. To uninstall things, run 'kubectl apply -k .', at the root level again.
     - Don't worry if you see 'NotFound' errors, it is likely due to the fact that some CRDs are deleted before the objects themselves. It should not a be a concern for this demo project.
@@ -60,15 +69,13 @@ curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 
 # General Prereqs
 - CipherTrust manager with CRDP licensed,
-- a reasonably recent K8s cluster (this was tested on 1.29, with kustomize 5.0)
-- a way to resolve to NodePorts for external clients.
+- A reasonably recent K8s cluster (this was tested on 1.29, with kustomize 5.0),
+- A way to resolve to NodePorts for external clients. When your client try to access 'crdp.\<domain-name\>', it should be redirected to the worker node where the Gateway API is running.
 
 
-# Cluster Prereqs
+## Cluster Prereqs
+- a TLS key and TLS cert for the Gateway API or generate them on the fly has describe above. 
 
-## Secrets
-- Ideally, a TLS key and TLS cert for the Gateway API or generate them on the fly has describe above.
-- A way to resolve to your exposed Gateway API.
 
 # Next Steps
 - Add the possibility to deploy a keycloak IDP to handle CRDP authorisation (See https://thalesdocs.com/ctp/cm/2.19/admin/adp_ag/adp-cm-crdp/defn-app-crdp/index.html)
