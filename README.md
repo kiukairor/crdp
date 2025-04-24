@@ -26,7 +26,7 @@ Explanation of the variables involved below.
 - \<ciphertust-hostname\>: Hostname or IP address to your CipherTrust Manager. Your pods must be able to resolve to it and/or to reach the corresponding IP address.
 
 # Usage 
-0. Create the namespace \<crdp-hostname\>.
+0. Create the namespace \<crdp-namespace\>.
 
 1. Place tls.key and tls.cert in folder gw-api/tls. They will represent the TLS endpoint exposed at the Gateway level. 
     a. If you do not have such files, run the following command:
