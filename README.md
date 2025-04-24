@@ -68,8 +68,8 @@ Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.ht
 8. To uninstall things, at the root level again:
 ````
 kubectl apply -k .
-````
-    - Don't worry if you see 'NotFound' errors, it is likely due to the fact that some CRDs are deleted before the objects themselves. It should not a be a concern for this demo project.
+```` 
+Don't worry if you see 'NotFound' errors, it is likely due to the fact that some CRDs are deleted before the objects themselves. It should not a be a concern for this demo project.
 
 
 
