@@ -74,7 +74,7 @@ Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.ht
 
 
 ## Cluster Prereqs
-- a TLS key and TLS cert for the Gateway API or generate them on the fly has describe above. 
+- a TLS key and TLS cert for the Gateway API or generate them on the fly as describe above. 
 
 
 # Next Steps
