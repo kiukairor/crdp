@@ -27,16 +27,28 @@ Explanation of the variables involved below.
 
 # Usage 
 0. Create the namespace \<crdp-namespace\>.
+````
+➜  ~  ubectl create ns <crdp-namespace>
+````
 
-1. Place tls.key and tls.cert in folder gw-api/tls. They will represent the TLS endpoint exposed at the Gateway level. 
+At the root of this project:
+
+1. Place tls.key and tls.cert in folder ./gw-api/tls/. They will represent the TLS endpoint exposed at the Gateway level. 
     a. If you do not have such files, run the following command:
 ````
-openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
+➜  kust-crdp git:(main) ✗ ls
+README.md  crdp  crdp-routes  gw-api  kustomization.yaml
+➜  kust-crdp git:(main) ✗   
+➜  kust-crdp git:(main) ✗ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
+➜  kust-crdp git:(main) ✗ mv tls.key tls.cert ./gw-api/tls
 ````
 2. Get a Registration Token
     - Log onto your CipherTrust Manager > Application Protection > Add Application > Connector Type set to 'CRDP' and follow wizard (leave default values if unsure)
     - Click on the created application and click 'Copy' to copy the Registration Token
-    - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'.
+    - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'. For example, run:
+    ````
+    ➜  kust-crdp git:(main) ✗ echo <your-registration-token> ./crdp/regtoken/value
+    ````    
 
 3. Update crdp-routes/kustomization.yaml: 
     - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
@@ -47,35 +59,35 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out
     - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<ciphertrust-hostname\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
 5. At root level of this project, run:
 ````
-kubectl apply -k .
+➜  kust-crdp git:(main) ✗ kubectl apply -k .
 ```` 
 
 6. To get your gateway NodePort, run:
 ````
-➜  ~ kubectl -n nginx-gateway get svc
+➜  kust-crdp git:(main) ✗ kubectl -n nginx-gateway get svc
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 nginx-gateway   NodePort   10.100.156.252   <none>        80:30116/TCP,443:31244/TCP   13h
 ````
 Here the https port is 31244. 
-Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and see CRDP is running (you may need to accept SSL/TLS certificate warning).
+Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and verify that CRDP is running (you may need to accept SSL/TLS certificate warning).
 
 ````
-curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
+➜  kust-crdp git:(main) ✗  curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
 ````
 7. Start using CRDP capabilities. 
 Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
 
 8. To uninstall things, at the root level again:
 ````
-kubectl apply -k .
+➜  kust-crdp git:(main) ✗ kubectl delete -k .
+➜  kust-crdp git:(main) ✗ kubectl delete ns <crdp-namespace>
 ```` 
 Don't worry if you see 'NotFound' errors, it is likely due to the fact that some CRDs are deleted before the objects themselves. It should not a be a concern for this demo project.
 
 
-
 # Prereqs
 - CipherTrust manager with CRDP licensed,
-- A reasonably recent K8s cluster (this was tested on 1.29, with kustomize 5.0),
+- A reasonably recent K8s cluster with kubectl configured (this was tested on 1.29, with kustomize 5.0),
 - A way to resolve to the proper K8s worker node for clients. When your client try to access 'crdp.\<domain-name\>', it should be redirected to the worker node where the Gateway API is running.
 
 

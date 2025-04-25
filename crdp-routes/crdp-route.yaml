@@ -4,13 +4,12 @@ metadata:
   name: crdp-route-http
 spec:
   hostnames:
-  - placeholder.kiukairor.local #will be populated by the replacement in kustomization.yaml
+  - placeholder.kiukairor.local # do not change; this will be populated by the replacement in kustomization.yaml
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
     name: nginx-gateway
     namespace: nginx-gateway
-    # sectionName: "http-listener"
   rules:
   - backendRefs:
     - group: ""
