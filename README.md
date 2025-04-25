@@ -39,15 +39,15 @@ At the root of this project:
 ````
 ➜  kust-crdp git:(main) ✗ ls
 README.md  crdp  crdp-routes  gw-api  kustomization.yaml
-➜  kust-crdp git:(main) ✗ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
-➜  kust-crdp git:(main) ✗ mv tls.key tls.cert ./gw-api/tls
+➜  crdp git:(main) ✗ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
+➜  crdp git:(main) ✗ mv tls.key tls.cert ./gw-api/tls
 ````
 2. Get a Registration Token
     - Log onto your CipherTrust Manager > Application Protection > Add Application > Connector Type set to 'CRDP' and follow wizard (leave default values if unsure)
     - Click on the created application and click 'Copy' to copy the Registration Token
     - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'. For example, run:
     ````
-    ➜  kust-crdp git:(main) ✗ echo <your-registration-token> ./crdp/regtoken/value
+    ➜  crdp git:(main) ✗ echo <your-registration-token> ./crdp/regtoken/value
     ````    
 
 3. Update **crdp-routes/kustomization.yaml**: 
@@ -118,12 +118,12 @@ configMapGenerator:
 
 5. At root level of this project, run:
 ````
-➜  kust-crdp git:(main) ✗ kubectl apply -k .
+➜  crdp git:(main) ✗ kubectl apply -k .
 ```` 
 
 6. To get your gateway NodePort, run:
 ````
-➜  kust-crdp git:(main) ✗ kubectl -n nginx-gateway get svc
+➜  crdp git:(main) ✗ kubectl -n nginx-gateway get svc
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 nginx-gateway   NodePort   10.100.156.252   <none>        80:30116/TCP,443:31244/TCP   13h
 ````
@@ -131,15 +131,15 @@ Here the https port is 31244.
 Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and verify that CRDP is running (you may need to accept SSL/TLS certificate warning).
 
 ````
-➜  kust-crdp git:(main) ✗  curl --request GET -k --url https://<your-crdp-hostname>:<https-port>/liveness
+➜  crdp git:(main) ✗  curl --request GET -k --url https://<your-crdp-hostname>:<https-port>/liveness
 ````
 7. Start using CRDP capabilities. 
 Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
 
 8. To uninstall things, at the root level again:
 ````
-➜  kust-crdp git:(main) ✗ kubectl delete -k .
-➜  kust-crdp git:(main) ✗ kubectl delete ns <crdp-namespace>
+➜  crdp git:(main) ✗ kubectl delete -k .
+➜  crdp git:(main) ✗ kubectl delete ns <crdp-namespace>
 ```` 
 Don't worry if you see 'NotFound' errors, it is likely due to the fact that some CRDs are deleted before the objects themselves. It should not a be a concern for this demo project.
 
