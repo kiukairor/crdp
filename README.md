@@ -24,21 +24,21 @@ Explanation of the variables involved below.
 - \<crdp-hostname\>: it is the hostname you will reach out to. It should be something like 'crdp.\<domain-name\>'. For a local setup, you can simply add an entry in /etc/hosts to make your client resolve 'crdp.\<domain-name\>' to your worker nodes.
 - \<crdp-namespace\>: K8s Namespace that will hold CRDP resources
 - \<ciphertust-hostname\>: Hostname or IP address to your CipherTrust Manager. Your pods must be able to resolve to it and/or to reach the corresponding IP address.
+- tls.key/tls.crt: they are the TLS credentials that we will used at the gateway level for incoming connections. You can either use existing ones or generate new ones on the fly as described below.
 
 # Usage 
 0. Create the namespace \<crdp-namespace\>.
 ````
-➜  ~  ubectl create ns <crdp-namespace>
+➜  ~  kubectl create ns <crdp-namespace>
 ````
 
 At the root of this project:
 
-1. Place tls.key and tls.cert in folder ./gw-api/tls/. They will represent the TLS endpoint exposed at the Gateway level. 
-    a. If you do not have such files, run the following command:
+1. Place tls.key and tls.cert in folder ./gw-api/tls/. 
+    - If you do not have such files, run the following command:
 ````
 ➜  kust-crdp git:(main) ✗ ls
 README.md  crdp  crdp-routes  gw-api  kustomization.yaml
-➜  kust-crdp git:(main) ✗   
 ➜  kust-crdp git:(main) ✗ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
 ➜  kust-crdp git:(main) ✗ mv tls.key tls.cert ./gw-api/tls
 ````
@@ -50,11 +50,11 @@ README.md  crdp  crdp-routes  gw-api  kustomization.yaml
     ➜  kust-crdp git:(main) ✗ echo <your-registration-token> ./crdp/regtoken/value
     ````    
 
-3. Update crdp-routes/kustomization.yaml: 
+3. Update **crdp-routes/kustomization.yaml**: 
     - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
     - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=\<crdp-hostname\>' (Hostname of your choice, your clients should be able to resolve it)
 
-4. Update crdp/kustomization.yaml:
+4. Update **crdp/kustomization.yaml**:
     - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
     - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<ciphertrust-hostname\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
 5. At root level of this project, run:
@@ -72,7 +72,7 @@ Here the https port is 31244.
 Browse/Curl to https://\<crdp-hostname\>:\<https-port\>/liveness and verify that CRDP is running (you may need to accept SSL/TLS certificate warning).
 
 ````
-➜  kust-crdp git:(main) ✗  curl --request GET --url https://<your-crdp-hostname>:<https-port>/liveness
+➜  kust-crdp git:(main) ✗  curl --request GET -k --url https://<your-crdp-hostname>:<https-port>/liveness
 ````
 7. Start using CRDP capabilities. 
 Check https://thalesdocs.com/ctp/con/crdp/latest/admin/crdp-quick-start/index.html and https://thalesdocs.com/ctp/con/crdp/latest/crdp-apis/index.html 
