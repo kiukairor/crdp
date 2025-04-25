@@ -19,12 +19,12 @@ This is intended as demo/poc only; some bad practises are followed here.
 
 
 # Right before starting
-Explanation of the variables involved below.
+Explanation of the variables involved below:
+- \<crdp-namespace\>: K8s Namespace that will hold CRDP resources.
 - \<domain-name\>: the domain name of your set up. It can be a local domain name.
 - \<crdp-hostname\>: it is the hostname you will reach out to. It should be something like 'crdp.\<domain-name\>'. For a local setup, you can simply add an entry in /etc/hosts to make your client resolve 'crdp.\<domain-name\>' to your worker nodes.
-- \<crdp-namespace\>: K8s Namespace that will hold CRDP resources
+- tls.key/tls.crt: they are the TLS credentials that will be used at the gateway level for incoming connections. You can either use existing ones or generate new ones on the fly as described below.
 - \<ciphertust-hostname\>: Hostname or IP address to your CipherTrust Manager. Your pods must be able to resolve to it and/or to reach the corresponding IP address.
-- tls.key/tls.crt: they are the TLS credentials that we will used at the gateway level for incoming connections. You can either use existing ones or generate new ones on the fly as described below.
 
 # Usage 
 0. Create the namespace \<crdp-namespace\>.
@@ -51,12 +51,71 @@ README.md  crdp  crdp-routes  gw-api  kustomization.yaml
     ````    
 
 3. Update **crdp-routes/kustomization.yaml**: 
-    - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
-    - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=\<crdp-hostname\>' (Hostname of your choice, your clients should be able to resolve it)
+Modify Lines 4 and 15 as prescribed below.:
+````
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kust
+
+configMapGenerator:
+- name: route-config
+  literals:
+  - hostname=crdp-kust.kiukairor.local # Modify here to your hostname for CRDP
+...
+````
+  - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
+  - Replace 'hostname=crdp-kust.kiukairor.local' by 'hostname=\<crdp-hostname\>' (Hostname of your choice, your clients should be able to resolve it).
+Hence the file should look like:
+````
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: \<crdp-namespace\>
+...
+configMapGenerator:
+- name: route-config
+  literals:
+  - hostname=\<crdp-hostname\> # Modify here to your hostname for CRDP
+...
+````
 
 4. Update **crdp/kustomization.yaml**:
-    - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
-    - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<ciphertrust-hostname\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
+
+````
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kust
+...
+configMapGenerator:
+- name: crdp-config
+  literals:
+  - TLS_MODE=no-tls                 # no-tls, tls-cert-opt, tsl-cert
+  - CM_HOST=cm-ninja.kiukairor.com  # Modify here to your hostname/IP for CipherTrust
+
+...
+````
+  - Replace 'namespace: kust' by 'namespace: \<crdp-namespace\> (See step 0.)
+  - Replace 'CM_HOST=cm-ninja.kiukairor.com' by CM_HOST=\<ciphertrust-hostname\> (If using hostname, ensure your (CRDP) pods will be able to resolve your ciphertrust)
+
+Hence the file should become: 
+
+````
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: \<crdp-namespace\>
+...
+configMapGenerator:
+- name: crdp-config
+  literals:
+  - TLS_MODE=no-tls                   # no-tls, tls-cert-opt, tsl-cert
+  - CM_HOST=\<ciphertrust-hostname\>  # Modify here to your hostname/IP for CipherTrust
+
+...
+````
+
 5. At root level of this project, run:
 ````
 ➜  kust-crdp git:(main) ✗ kubectl apply -k .
