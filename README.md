@@ -47,7 +47,7 @@ README.md  crdp  crdp-routes  gw-api  kustomization.yaml
     - Click on the created application and click 'Copy' to copy the Registration Token
     - Create a file named 'value' in crdp/regtoken folder and simply copy this token in this file 'value'. For example, run:
     ````
-    ➜  crdp git:(main) ✗ echo <your-registration-token> ./crdp/regtoken/value
+    ➜  crdp git:(main) ✗ echo <your-registration-token> > ./crdp/regtoken/value
     ````    
 
 3. Update **crdp-routes/kustomization.yaml**: 
