@@ -37,7 +37,7 @@ At the root of this project:
 1. Place tls.key and tls.cert in folder ./gw-api/tls/. 
     - If you do not have such files, run the following command:
 ````
-➜  kust-crdp git:(main) ✗ ls
+➜  crdp git:(main) ✗ ls
 README.md  crdp  crdp-routes  gw-api  kustomization.yaml
 ➜  crdp git:(main) ✗ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
 ➜  crdp git:(main) ✗ mv tls.key tls.cert ./gw-api/tls
