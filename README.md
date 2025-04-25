@@ -21,7 +21,7 @@ This is intended as demo/poc only; some bad practises are followed here.
 # Right before starting
 Explanation of the variables involved below:
 - \<crdp-namespace\>: K8s Namespace that will hold CRDP resources.
-- \<domain-name\>: the domain name of your set up. It can be a local domain name.
+- \<domain-name\>: the domain name of your set up. It can be a local domain name. For consistency, you want to use this domain name to be the same as the one used in for the tls.crt (see Step 1 below)
 - \<crdp-hostname\>: it is the hostname you will reach out to. It should be something like 'crdp.\<domain-name\>'. For a local setup, you can simply add an entry in /etc/hosts to make your client resolve 'crdp.\<domain-name\>' to your worker nodes.
 - tls.key/tls.crt: they are the TLS credentials that will be used at the gateway level for incoming connections. You can either use existing ones or generate new ones on the fly as described below.
 - \<ciphertust-hostname\>: Hostname or IP address to your CipherTrust Manager. Your pods must be able to resolve to it and/or to reach the corresponding IP address.
@@ -34,7 +34,7 @@ Explanation of the variables involved below:
 
 At the root of this project:
 
-1. Place tls.key and tls.cert in folder ./gw-api/tls/. 
+1. Place tls.key and tls.crt in folder ./gw-api/tls/. 
     - If you do not have such files, run the following command:
 ````
 ➜  crdp git:(main) ✗ ls
