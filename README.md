@@ -40,7 +40,7 @@ At the root of this project:
 ➜  crdp git:(main) ✗ ls
 README.md  crdp  crdp-routes  gw-api  kustomization.yaml
 ➜  crdp git:(main) ✗ openssl req -x509 -newkey rsa:2048 -sha256 -days 365 -nodes -keyout tls.key -out tls.crt -subj "/C=UK/ST=Eng/L=Limoges/O=yourorg/CN=*.\<domain-name\>"
-➜  crdp git:(main) ✗ mv tls.key tls.cert ./gw-api/tls
+➜  crdp git:(main) ✗ mv tls.key tls.crt ./gw-api/tls
 ````
 2. Get a Registration Token
     - Log onto your CipherTrust Manager > Application Protection > Add Application > Connector Type set to 'CRDP' and follow wizard (leave default values if unsure)
