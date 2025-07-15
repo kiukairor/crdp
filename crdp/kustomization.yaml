@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: kust
+namespace: wizard-crdp
 
 resources:
   - crdp-dep.yaml
@@ -14,7 +14,7 @@ configMapGenerator:
 - name: crdp-config
   literals:
   - TLS_MODE=no-tls                 # no-tls, tls-cert-opt, tsl-cert
-  - CM_HOST=cm-ninja.kiukairor.com  # Modify here to your hostname/IP for CipherTrust
+  - CM_HOST=cm-ninja.kiukairor.com
 
 secretGenerator:
   - name: crdp-reg-token
