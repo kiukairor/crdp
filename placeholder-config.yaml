@@ -1,0 +1,4 @@
+crdp_namespace: <K8s namespace to be created>
+crdp_hostname: <HOSTNAME of CRDP>
+ciphertrust_host: <CM IP/HOSTNAME>
+regtoken: <REG TOKEN>

@@ -1,6 +1,0 @@
-crdp_namespace: wizard-crdp
-crdp_hostname: wizard-crdp.kiukairor.local
-ciphertrust_host: cm-ninja.kiukairor.com
-tls_key: ./gw-api/tls/tls.key
-tls_crt: ./gw-api/tls/tls.crt
-regtoken: "W2alBznfJCQE1FlUo3bODz2WGGw0NXur4MNNpuGH4nSgJO9uGKQ9NYjNINDbVwPj"
