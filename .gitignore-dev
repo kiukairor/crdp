@@ -3,3 +3,4 @@ gw-api/tls/tls.crt
 gw-api/tls/tls.key
 
 crdp/regtoken/value
+dev-fixes.md
