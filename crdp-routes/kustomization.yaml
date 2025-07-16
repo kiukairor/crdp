@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: wizard-crdp
+namespace: josejose
 
 resources:
   - crdp-route.yaml
@@ -12,7 +12,7 @@ generatorOptions:
 configMapGenerator:
 - name: route-config
   literals:
-  - hostname=wizard-crdp.kiukairor.local
+  - hostname=josecrdp.kiukairor.local
 
 replacements:
 - source:

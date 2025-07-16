@@ -52,20 +52,19 @@ def prompt_config():
         cfg['domain_name'] = default_domain
     cfg['crdp_hostname'] = input('CRDP hostname (e.g. crdp.<domain>): ').strip()
     cfg['ciphertrust_host'] = input('CipherTrust Manager host/IP: ').strip()
-    cfg['tls_key'] = input('Path to tls.key: ').strip()
-    cfg['tls_crt'] = input('Path to tls.crt: ').strip()
     cfg['regtoken'] = input('Registration token: ').strip()
     return cfg
 
 
-def write_tls(cfg):
-    GW_TLS_DIR.mkdir(parents=True, exist_ok=True)
+## FOR GW TLS Repo
+# def write_tls(cfg):
+#     GW_TLS_DIR.mkdir(parents=True, exist_ok=True)
 
-    try:
-        shutil.copy(cfg['tls_key'], GW_TLS_DIR / 'tls.key')
-        shutil.copy(cfg['tls_crt'], GW_TLS_DIR / 'tls.crt')
-    except shutil.SameFileError:
-        pass  # Skip if source/destination are the same
+#     try:
+#         shutil.copy(cfg['tls_key'], GW_TLS_DIR / 'tls.key')
+#         shutil.copy(cfg['tls_crt'], GW_TLS_DIR / 'tls.crt')
+#     except shutil.SameFileError:
+#         pass  # Skip if source/destination are the same
 
 
 def write_regtoken(cfg):
@@ -104,7 +103,7 @@ def main():
     cfg = load_config(args.config) if args.config else prompt_config()
 
     # Copy TLS and token
-    write_tls(cfg)
+    # write_tls(cfg)
     write_regtoken(cfg)
 
     # Update kustomizations
